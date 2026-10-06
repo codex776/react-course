@@ -1,18 +1,35 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import User from "../components/User";
+import { Link } from "react-router-dom";
 function Home() {
-  const[users,setUsers]=useState([])
+  const [users, setUsers] = useState([]);
   async function fetchData() {
-    const {data}=await axios.get("https://jsonplaceholder.typicode.com/users")
+    const { data } = await axios.get(
+      "https://jsonplaceholder.typicode.com/users",
+    );
 
-    setUsers(data)
+    setUsers(data);
   }
-  useEffect(()=>{
-    fetchData()
-  },[])
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
-    <h1>{users[0]?.username}</h1>
-  )
+        <div>
+          {users.map((user) => (
+      <Link to={`/users/${user.id}`} key={user.id}>
+            <User
+              
+              id={user.id}
+              name={user.name}
+              username={user.username}
+            />
+      </Link>
+          ))}
+        </div>
+  
+  );
 }
 
 export default Home;
